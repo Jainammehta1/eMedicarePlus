@@ -1,0 +1,1497 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Apollo Hospitals - Your Health, Our Mission</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.3/font/bootstrap-icons.min.css" />
+  <style>
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: 90px; 
+    }
+    body {
+      min-height: 100vh;
+      font-family: 'Segoe UI', 'Arial', sans-serif;
+      background: linear-gradient(120deg, #e6f7fa 0%, #f5ffff 60%, #e1f4ec 100%);
+    }
+    /* --- Globals & Animations --- */
+    .section-header {
+      font-weight: 700;
+      font-size: 2.5rem;
+      margin-bottom: 30px;
+      letter-spacing: 2px;
+      background: linear-gradient(90deg, #00b3b3 20%, #41e47d 80%, #bbe9f3 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      position: relative;
+      filter: drop-shadow(0 2px 10px #8effc888);
+    }
+    .section-header::after {
+      content: '';
+      display: block;
+      margin: 14px auto 0 auto;
+      height: 4px;
+      width: 80px;
+      border-radius: 2px;
+      background: linear-gradient(90deg, #53cea7, #25dedc);
+      animation: headerBarAnim 2s linear infinite alternate;
+    }
+    @keyframes headerBarAnim {
+      0%{width: 60px;opacity:.8;}
+      100%{width:110px;opacity:1;}
+    }
+    .highlight {
+      animation: highlightAnim 2.5s ease forwards;
+    }
+    @keyframes highlightAnim {
+      0% { box-shadow: 0 0 20px 8px #53cea7cc; }
+      100% { box-shadow: none; }
+    }
+    section {
+      padding-top: 60px;
+      padding-bottom: 60px;
+      position: relative;
+      z-index: 1;
+    }
+    .fw-strong {
+      color: #03999e;
+      font-weight: 700;
+    }
+
+    /* --- Navbar Styles --- */
+    .navbar {
+      position: sticky;
+      top: 0;
+      z-index: 1050;
+      background: linear-gradient(90deg, #1697a6 20%, #53cea7 60%, #e3f6fc 100%) !important;
+      box-shadow: 0 3px 18px #b5e8ede6;
+    }
+    .navbar-brand, .nav-link, .navbar-toggler-icon {
+      color: #fff !important;
+      text-shadow: 0 2px 4px #00808020;
+    }
+    .navbar-brand {
+      font-weight: 700;
+      font-size: 2rem;
+    }
+    .nav-link.active, .nav-link:hover {
+      color: #19b3a6 !important;
+      background: linear-gradient(90deg, #f4fdfa 10%, #e0f8fc 90%);
+      border-radius: 12px;
+      text-shadow: none;
+      text-decoration: underline 2px #53cea766;
+      text-underline-offset: 3px;
+    }
+    .search-bar:focus {
+      outline: none;
+      box-shadow: 0 0 8px #41e47d99;
+      border-color: #41e47d;
+    }
+    .clear-btn {
+      position: absolute;
+      right: 8px;
+      top: 50%;
+      transform: translateY(-50%);
+      border: none;
+      background: transparent;
+      color: #41e47d;
+      font-size: 1.2rem;
+      cursor: pointer;
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+    .clear-btn.visible { opacity: 1; }
+    .nav-role-badge {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: #1697a6;
+      background-color: #f7ffdd;
+      padding: 0.35em 0.7em;
+      border-radius: 15px;
+      margin-right: 15px;
+    }
+
+    /* --- Role Selection Screen --- */
+    #loginScreen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(45deg, #1697a6 0%, #53cea7 100%);
+      z-index: 2000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .login-card {
+      background: white;
+      border-radius: 20px;
+      padding: 40px;
+      max-width: 90%;
+      width: 500px;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+    }
+    .role-btn {
+      transition: all 0.3s;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    }
+    .role-btn:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 25px rgba(22, 151, 166, 0.4);
+    }
+
+    /* --- Hero Section --- */
+    .hero-section {
+      margin-bottom: 24px;
+      border-radius: 0 0 35px 35px;
+      overflow: hidden;
+    }
+    .hero-img { border:6px solid #fff; background: #c4f9f4; }
+    .hero-lead { text-shadow:0 2px 8px #11545731; }
+    .hero-btn {
+      box-shadow: 0 4px 18px #bbe9f3a2, 0 2px 12px #2ec4d643;
+      font-size: 1.1rem;
+      margin-bottom: 4px;
+      min-width: 210px;
+    }
+    .hero-btn:hover, .hero-btn:focus {
+      color: #fff !important;
+      background: linear-gradient(95deg, #41e47d 25%, #1697a6 98%);
+      border: 2px solid #41e47d !important;
+      box-shadow: 0 7px 36px #53cea7a0, 0 2px 8px #1dcaca70;
+      transform: translateY(-4px) scale(1.04);
+      outline: none;
+    }
+
+    /* --- Dashboard Card Styles --- */
+    .dashboard-card {
+        background: linear-gradient(135deg, #f8feff 75%, #dcf7ee 100%);
+        border-radius: 20px;
+        padding: 1.5rem;
+        box-shadow: 0 4px 24px 4px #84d8c240;
+        transition: transform 0.2s, box-shadow 0.2s;
+        border: 1px solid #e0f7f2;
+        height: 100%;
+    }
+    .dashboard-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 12px 30px 2px #5ce0c175;
+    }
+    .dashboard-card .stat-number {
+        font-size: 2.5rem;
+        font-weight: 700;
+        color: #1697a6;
+    }
+    .dashboard-card .stat-icon {
+        font-size: 3rem;
+        color: #53cea7;
+        opacity: 0.7;
+    }
+    .dashboard-content-pane {
+        background-color: #fff;
+        padding: 2rem;
+        border-radius: 15px;
+        box-shadow: 0 4px 24px 4px #84d8c240;
+    }
+
+    .excellence-card {
+      background: linear-gradient(135deg, #f8feff 75%, #dcf7ee 100%);
+      border-radius: 20px;
+      padding: 22px 10px 12px 10px;
+      box-shadow: 0 4px 24px 4px #84d8c240, 0 3px 5px #ddf9ff60;
+      transition: transform 0.25s cubic-bezier(.77,0,.175,1), box-shadow 0.22s;
+      border: 2px solid #e0f7f2;
+      cursor: pointer;
+      height: 100%;
+    }
+    .excellence-card:hover {
+      transform: perspective(900px) rotateY(-6deg) scale(1.05);
+      box-shadow: 0 18px 35px 2px #5ce0c185;
+    }
+    .excellence-icon {
+      width: 90px;
+      height: 90px;
+      object-fit: cover;
+      border-radius: 20px;
+      box-shadow: 0 2px 15px #41e47d40, 0 5px 18px #d5f8f07a;
+      border: 3px solid #eafaf6;
+      background: #fbffff;
+    }
+    .package-card {
+      border: 1px solid #d7f7f1;
+      border-radius: 20px;
+      box-shadow: 0 8px 22px #bde6f233;
+      transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    }
+    .package-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 19px 41px #53cea73a;
+    }
+    .package-card .card-header {
+      background: linear-gradient(90deg, #1697a6, #53cea7);
+      color: white;
+      border-radius: 20px 20px 0 0 !important;
+    }
+    .footer {
+        background: linear-gradient(90deg, #1697a6 20%, #53cea7 100%);
+        color: #fff;
+    }
+    /* Responsive Styles maintained */
+    @media (max-width: 767px) {
+      .section-header { font-size: 2rem; }
+      .hero-section { text-align: center; }
+      .hero-section .justify-content-lg-start { justify-content: center !important; }
+      .hero-btn { width: 80%; max-width: 300px; }
+    }
+  </style>
+</head>
+<body data-bs-spy="scroll" data-bs-target="#navbarSupportedContent" data-bs-offset="120">
+
+<!-- Role Selection Screen -->
+<div id="loginScreen" class="animate__animated animate__fadeIn d-none">
+  <div class="login-card text-center">
+    <h2 class="section-header text-center" style="margin-bottom: 10px; font-size: 2rem;">Access Portal</h2>
+    <p class="text-muted mb-4">Select your user type to proceed to the dedicated login/signup.</p>
+    <div class="row g-3">
+        <div class="col-md-6"><button class="role-btn btn btn-lg btn-success w-100" onclick="showAuthModal('patient')"><i class="bi bi-person-heart me-2"></i>Patient</button></div>
+        <div class="col-md-6"><button class="role-btn btn btn-lg btn-info w-100 text-white" onclick="showAuthModal('doctor')"><i class="bi bi-person-circle me-2"></i>Doctor</button></div>
+        <div class="col-md-12"><button class="role-btn btn btn-lg btn-danger w-100" onclick="showAuthModal('admin')"><i class="bi bi-shield-lock-fill me-2"></i>Admin</button></div>
+    </div>
+    <hr class="my-4">
+    <p class="text-secondary small">This is a frontend demo. User data is saved locally.</p>
+  </div>
+</div>
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg shadow-sm">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">Apollo</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+            data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+            aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item"><a class="nav-link" href="#" onclick="scrollToSection('#hero')">Home</a></li>
+        <li class="nav-item"><a class="nav-link" href="#dashboard" onclick="checkLoginAndRedirect('dashboard', event)">Dashboard</a></li>
+        <li class="nav-item public-only"><a class="nav-link" href="#health-checkup" onclick="scrollToSection('#health-checkup')">Health Checkups</a></li>
+        <li class="nav-item dropdown public-only">
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Departments</a>
+          <ul class="dropdown-menu" id="nav-department-links">
+             <!-- Links added by JS -->
+          </ul>
+        </li>
+         <li class="nav-item public-only"><a class="nav-link" href="#ai-edoctor" onclick="scrollToSection('#ai-edoctor')">AI E-Doctor</a></li>
+         <li class="nav-item"><a class="nav-link" href="#faq" onclick="scrollToSection('#faq')">FAQ</a></li>
+      </ul>
+      <div class="d-flex align-items-center">
+        <span id="roleBadge" class="nav-role-badge d-none"></span>
+        <form class="d-flex position-relative me-3" role="search" onsubmit="event.preventDefault();">
+          <input id="searchInput" class="form-control me-2 rounded-pill" type="search" placeholder="Search departments..." aria-label="Search" />
+          <button id="clearBtn" class="clear-btn btn" title="Clear search">&times;</button>
+        </form>
+        <button id="authBtn" class="btn btn-warning fw-bold rounded-pill" onclick="handleAuthClick()">
+            Login
+        </button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- Main App Content -->
+<div id="appContent">
+    <!-- Hero Section -->
+    <header id="hero" class="hero-section d-flex align-items-center justify-content-center" style="background: linear-gradient(90deg, #1697a6 18%, #41e47d 82%, #bbe9f3 100%); min-height: 430px; color: #025256; box-shadow:0 7px 20px #b5e8ede4;">
+      <div class="container py-5 px-4">
+        <div class="row align-items-center">
+          <div class="col-lg-6 order-2 order-lg-1 my-4 my-lg-0">
+            <h1 class="display-4 fw-bold mb-3 animate__animated animate__fadeInLeft" style="letter-spacing:.7px; color:#fff; text-shadow:0 3px 18px #1cae9944;">Welcome to <span style="color:#ffe666; text-shadow:0 3px 10px #46dfc488;">Apollo Hospitals</span></h1>
+            <p class="hero-lead mb-5 animate__animated animate__fadeInLeft" style="color:#e3f6fc; max-width:530px; font-size:1.27rem; line-height:170%;">
+              Trusted for <b>advanced healthcare</b>. Your health, our mission. <span style="color:#ffe666;">Comprehensive care</span>, expert doctors, and world-class technology.
+            </p>
+            <div class="d-flex flex-wrap justify-content-center justify-content-lg-start gap-3 animate__animated animate__fadeInUp">
+              <button class="hero-btn btn btn-light btn-lg fw-bold shadow rounded-pill" onclick="checkLoginAndBook(this)" data-booking-type="General Appointment">
+                Book Appointment
+              </button>
+              <a href="#health-checkup" class="hero-btn btn btn-outline-light btn-lg fw-bold rounded-pill" style="border:2px solid #53cea7;" onclick="scrollToSection('#health-checkup')">
+                Book Health Checkup
+              </a>
+            </div>
+          </div>
+          <div class="col-lg-6 order-1 order-lg-2 text-center mb-4 mb-lg-0">
+            <img src="https://tse3.mm.bing.net/th/id/OIP.EnaAopVES-UBwsCEjlLsywHaDL?r=0&cb=ucfimgc2&w=700&h=300&rs=1&pid=ImgDetMain&o=7&rm=3" alt="Hospital entrance with staff" class="img-fluid hero-img animate__animated animate__fadeInRight rounded-4" style="max-width:375px; box-shadow: 0 14px 60px #bae9e4cc, 0 2px 10px #18b3b870;">
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main class="container">
+        <!-- Centres of Excellence -->
+        <section id="excellence" class="text-center public-only">
+            <h2 class="section-header">Centres of Excellence</h2>
+            <div id="excellenceCards" class="row justify-content-center g-4">
+                <!-- Cards populated by JS -->
+            </div>
+            <p id="noResults" class="d-none text-muted fs-5 mt-4">No departments found for your search.</p>
+        </section>
+        
+        <!-- Role-Based Dashboard Section -->
+        <section id="dashboard" class="py-5">
+            <h2 class="section-header text-center">
+              <span id="dashboardTitle">Hospital Analytics</span>
+            </h2>
+            <div id="dashboardContent">
+                <!-- Content dynamically injected based on user role -->
+                <!-- Default Guest View (Hospital Analytics) -->
+                <div id="guestDashboard" class="row g-4">
+                    <div class="col-md-6 col-lg-3"><div class="dashboard-card text-center"><i class="bi bi-people-fill stat-icon"></i><h3 class="stat-number" data-target="85000">0</h3><p class="text-muted mb-0">Patients Annually</p></div></div>
+                    <div class="col-md-6 col-lg-3"><div class="dashboard-card text-center"><i class="bi bi-heart-pulse-fill stat-icon"></i><h3 class="stat-number" data-target="12000">0</h3><p class="text-muted mb-0">Successful Surgeries</p></div></div>
+                    <div class="col-md-6 col-lg-3"><div class="dashboard-card text-center"><i class="bi bi-star-fill stat-icon"></i><h3 class="stat-number" data-target="98.7" data-decimal="true">0</h3><p class="text-muted mb-0">Satisfaction (%)</p></div></div>
+                    <div class="col-md-6 col-lg-3"><div class="dashboard-card text-center"><i class="bi bi-person-check-fill stat-icon"></i><h3 class="stat-number" data-target="250">0</h3><p class="text-muted mb-0">Specialists</p></div></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Health Checkup Packages Section -->
+        <section id="health-checkup" class="public-only">
+            <h2 class="section-header text-center">Health Checkup Packages</h2>
+            <div class="row g-4 justify-content-center">
+                <div class="col-md-6 col-lg-4">
+                    <div class="card h-100 text-center package-card">
+                        <div class="card-header py-3"><h4 class="my-0 fw-normal">Basic Wellness</h4></div>
+                        <div class="card-body d-flex flex-column"><h1 class="card-title pricing-card-title">$50</h1><ul class="list-unstyled mt-3 mb-4"><li>Complete Blood Count</li><li>Blood Sugar Test</li><li>Lipid Profile</li><li>Doctor Consultation</li></ul><button type="button" class="w-100 btn btn-lg btn-outline-primary mt-auto" onclick="checkLoginAndBook(this)" data-booking-type="Basic Wellness Checkup">Book Now</button></div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4">
+                    <div class="card h-100 text-center package-card">
+                        <div class="card-header py-3"><h4 class="my-0 fw-normal">Cardiac Pro</h4></div>
+                        <div class="card-body d-flex flex-column"><h1 class="card-title pricing-card-title">$150</h1><ul class="list-unstyled mt-3 mb-4"><li>All Basic Tests</li><li>ECG & Stress Test</li><li>2D Echocardiogram</li><li>Cardiologist Consultation</li></ul><button type="button" class="w-100 btn btn-lg btn-primary mt-auto" onclick="checkLoginAndBook(this)" data-booking-type="Cardiac Pro Checkup">Book Now</button></div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4">
+                    <div class="card h-100 text-center package-card">
+                        <div class="card-header py-3"><h4 class="my-0 fw-normal">Comprehensive Plus</h4></div>
+                        <div class="card-body d-flex flex-column"><h1 class="card-title pricing-card-title">$300</h1><ul class="list-unstyled mt-3 mb-4"><li>All Cardiac Pro Tests</li><li>Full Body Scan</li><li>Vitamin Profile</li><li>Multi-specialist Consultation</li></ul><button type="button" class="w-100 btn btn-lg btn-primary mt-auto" onclick="checkLoginAndBook(this)" data-booking-type="Comprehensive Plus Checkup">Book Now</button></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Detailed Department Sections -->
+        <div id="departmentSections" class="public-only">
+            <!-- Sections populated by JS -->
+        </div>
+
+        <!-- AI E-Doctor Section -->
+        <section id="ai-edoctor" class="my-5 public-only">
+            <div class="text-center">
+                <h2 class="section-header">AI E-Doctor</h2>
+                <p class="text-secondary mb-4">Describe your symptoms to get a preliminary suggestion for the right specialist.</p>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="input-group mb-3">
+                        <input type="text" id="symptomInput" class="form-control form-control-lg" placeholder="e.g., 'I have chest pain and shortness of breath'">
+                        <button class="btn btn-primary" type="button" id="getSuggestionBtn">
+                            <span id="ai-button-text">Get Suggestion</span>
+                            <span id="ai-spinner" class="spinner-border d-none" role="status" aria-hidden="true"></span>
+                        </button>
+                    </div>
+                    <div id="ai-response" class="p-4 rounded d-none mt-4"></div>
+                     <small class="d-block text-center mt-3 text-danger">
+                        <strong>Disclaimer:</strong> This is an AI-powered suggestion and not a medical diagnosis. Please consult a qualified doctor for any health concerns.
+                    </small>
+                </div>
+            </div>
+        </section>
+
+        <!-- Patients Speak Section -->
+        <section class="patients-speak-section py-4 public-only" style="overflow:hidden; background: linear-gradient(100deg, #e6f7fa 80%, #bbe9f3 100%);">
+          <div class="container-fluid">
+            <h2 class="section-header text-center mb-4">Patients Speak</h2>
+            <div class="marquee-container">
+              <div class="patients-marquee">
+                <!-- Testimonial cards duplicated by JS for a seamless loop -->
+                <div class="testimonial-card p-3 bg-white rounded-3 shadow-sm">
+                  <div class="d-flex align-items-center mb-2"><img src="https://randomuser.me/api/portraits/men/41.jpg" alt="Patient" class="rounded-circle me-3" width="54" height="54" /><div><b>Ajai Kumar Srivastava</b><br><span class="text-success small">TKR Surgery</span></div></div>
+                  <p>"After robotic-assisted TKR at Apollo, my mobility and quality of life have transformed entirely."</p>
+                </div>
+                <div class="testimonial-card p-3 bg-white rounded-3 shadow-sm">
+                  <div class="d-flex align-items-center mb-2"><img src="https://randomuser.me/api/portraits/women/64.jpg" alt="Patient" class="rounded-circle me-3" width="54" height="54" /><div><b>Lakshmi Menon</b><br><span class="text-success small">Oncology</span></div></div>
+                  <p>"Excellent care and support during my cancer treatment journey. From diagnosis to recovery, I felt I was in safe hands."</p>
+                </div>
+                <div class="testimonial-card p-3 bg-white rounded-3 shadow-sm">
+                  <div class="d-flex align-items-center mb-2"><img src="https://randomuser.me/api/portraits/women/72.jpg" alt="Patient" class="rounded-circle me-3" width="54" height="54" /><div><b>Urmila Joshi</b><br><span class="text-success small">Nephrology</span></div></div>
+                  <p>"Apollo's kidney team guided me through a successful transplant. Continuous care and expert counseling made all the difference."</p>
+                </div>
+                <div class="testimonial-card p-3 bg-white rounded-3 shadow-sm">
+                  <div class="d-flex align-items-center mb-2"><img src="https://randomuser.me/api/portraits/men/58.jpg" alt="Patient" class="rounded-circle me-3" width="54" height="54" /><div><b>Raj Shekar</b><br><span class="text-success small">Cardiology</span></div></div>
+                  <p>"After my bypass at Apollo, the cardiac rehab & regular follow-up made me confident for life."</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- FAQ Section -->
+        <section class="faq-section" id="faq">
+            <h2 class="section-header text-center">Frequently Asked Questions</h2>
+            <div class="accordion" id="hospitalFAQ">
+                <div class="accordion-item"><h2 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapse1">How can I book an appointment?</button></h2><div id="faqCollapse1" class="accordion-collapse collapse" data-bs-parent="#hospitalFAQ"><div class="accordion-body">You can book an appointment by clicking the "Book Appointment" button, choosing a health package, or calling our helpline.</div></div></div>
+                <div class="accordion-item"><h2 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapse2">Do I need a referral to see a specialist?</button></h2><div id="faqCollapse2" class="accordion-collapse collapse" data-bs-parent="#hospitalFAQ"><div class="accordion-body">No, you can directly request a specialist consultation without a referral. Our team will assist you.</div></div></div>
+                <div class="accordion-item"><h2 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapse3">Do you offer online consultations?</button></h2><div id="faqCollapse3" class="accordion-collapse collapse" data-bs-parent="#hospitalFAQ"><div class="accordion-body">Yes, we offer online/video consultations for various specialties. Please call our helpdesk to schedule one.</div></div></div>
+                <div class="accordion-item"><h2 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapse6">What documents should I carry for my visit?</button></h2><div id="faqCollapse6" class="accordion-collapse collapse" data-bs-parent="#hospitalFAQ"><div class="accordion-body">Please bring a valid photo ID, previous medical records, any ongoing prescriptions, test reports, and your insurance documents (if applicable).</div></div></div>
+            </div>
+        </section>
+    </main>
+</div>
+
+<!-- Footer (Retained) -->
+<footer class="footer pt-5 pb-4">
+    <div class="container text-center text-md-start">
+        <div class="row">
+            <div class="col-md-3 col-lg-4 col-xl-3 mx-auto mb-4"><h6 class="text-uppercase fw-bold">Apollo Hospitals</h6><hr class="mb-4 mt-0 d-inline-block mx-auto" style="width: 60px; background-color: #e3f6fc; height: 2px"/><p>Providing world-class healthcare with a commitment to compassion and innovation. Your health is our mission.</p></div>
+            <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mb-4"><h6 class="text-uppercase fw-bold">Departments</h6><hr class="mb-4 mt-0 d-inline-block mx-auto" style="width: 60px; background-color: #e3f6fc; height: 2px"/><div id="footer-dept-links"></div></div>
+            <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mb-4"><h6 class="text-uppercase fw-bold">Useful Links</h6><hr class="mb-4 mt-0 d-inline-block mx-auto" style="width: 60px; background-color: #e3f6fc; height: 2px"/><p><a href="#dashboard" class="text-reset" onclick="checkLoginAndRedirect('dashboard', event)">Dashboard</a></p><p><a href="#health-checkup" class="text-reset" onclick="scrollToSection('#health-checkup')">Health Checkups</a></p><p><a href="#faq" class="text-reset" onclick="scrollToSection('#faq')">FAQ</a></p></div>
+            <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mb-md-0 mb-4"><h6 class="text-uppercase fw-bold">Contact</h6><hr class="mb-4 mt-0 d-inline-block mx-auto" style="width: 60px; background-color: #e3f6fc; height: 2px"/><p><i class="bi bi-geo-alt-fill me-3"></i> Tarkhad, Maharashtra, India</p><p><i class="bi bi-envelope-fill me-3"></i> contact@apollohospitals.com</p><p><i class="bi bi-telephone-fill me-3"></i> +91 22 1234 5678</p></div>
+        </div>
+         <div class="text-center mt-4"><a href="#!" class="me-4 text-reset"><i class="bi bi-facebook social-icon"></i></a><a href="#!" class="me-4 text-reset"><i class="bi bi-twitter-x social-icon"></i></a><a href="#!" class="me-4 text-reset"><i class="bi bi-instagram social-icon"></i></a><a href="#!" class="me-4 text-reset"><i class="bi bi-linkedin social-icon"></i></a></div>
+    </div>
+    <div class="text-center p-3 mt-4" style="background-color: rgba(0, 0, 0, 0.2)">© 2025 Copyright: <a class="text-white" href="#">ApolloHospitals.com</a></div>
+</footer>
+
+<!-- Auth Modal (Handles Login/Signup Forms) -->
+<div class="modal fade" id="authModal" tabindex="-1" aria-labelledby="authModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="authModalLabel">Login / Signup</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p id="authRoleText" class="text-muted text-center fw-bold"></p>
+        <form id="authForm" onsubmit="event.preventDefault(); handleAuthSubmit(this);">
+          <input type="hidden" id="authMode" value="login"> <!-- login or signup -->
+          <input type="hidden" id="authTargetRole">
+          
+          <div class="mb-3"><label for="authEmail" class="form-label">Email Address</label><input type="email" class="form-control" id="authEmail" required></div>
+          <div class="mb-3"><label for="authPassword" class="form-label">Password</label><input type="password" class="form-control" id="authPassword" required></div>
+          
+          <!-- Patient-specific extra fields (shown only when signing up as patient) -->
+          <div id="patientExtraGroup" class="d-none">
+            <div class="mb-3"><label for="authFullName" class="form-label">Full Name</label><input type="text" class="form-control" id="authFullName" placeholder="e.g., Priya Sharma"></div>
+            <div class="mb-3"><label for="authPhone" class="form-label">Phone Number</label><input type="tel" class="form-control" id="authPhone" placeholder="+91 98765 43210"></div>
+          </div>
+          <!-- Doctor-specific extra fields (shown only when signing up as doctor) -->
+          <div id="doctorExtraGroup" class="d-none">
+            <div class="mb-3"><label for="authSpecialist" class="form-label">Specialist / Department</label>
+              <select id="authSpecialist" class="form-select">
+                <option value="" selected disabled>Select a specialist</option>
+              </select>
+            </div>
+            <div class="mb-3"><label for="authFullNameDoctor" class="form-label">Full Name</label><input type="text" class="form-control" id="authFullNameDoctor" placeholder="e.g., Dr. Amit Kumar"></div>
+            <div class="mb-3"><label for="authPhoneDoctor" class="form-label">Phone Number</label><input type="tel" class="form-control" id="authPhoneDoctor" placeholder="+91 98765 43210"></div>
+          </div>
+          
+          <div id="signupConfirmPasswordGroup" class="mb-3 d-none">
+             <label for="authConfirmPassword" class="form-label">Confirm Password</label>
+             <input type="password" class="form-control" id="authConfirmPassword">
+          </div>
+          
+          <div class="text-center">
+            <button type="submit" id="authSubmitBtn" class="btn btn-primary btn-lg w-75 mt-3"><i class="bi bi-box-arrow-in-right me-2"></i>Login</button>
+          </div>
+        </form>
+        <hr>
+        <div class="text-center">
+             <button id="toggleAuthModeBtn" class="btn btn-link text-secondary" onclick="toggleAuthMode()">Need an account? Sign up</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Booking Modal (Retained) -->
+<div class="modal fade" id="bookingModal" tabindex="-1" aria-labelledby="bookingModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="bookingModalLabel">Book an Appointment</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form id="appointmentForm">
+          <input type="hidden" id="bookingType" name="bookingType">
+          <div class="mb-3"><label for="patientName" class="form-label">Full Name</label><input type="text" class="form-control" id="patientName" required></div>
+          <div class="mb-3"><label for="patientEmail" class="form-label">Email Address</label><input type="email" class="form-control" id="patientEmail" required></div>
+          <div class="mb-3"><label for="departmentSelect" class="form-label">Department / Service</label><select class="form-select" id="departmentSelect" required></select></div>
+          <div class="mb-3" id="doctorSelectGroup" style="display:none;"><label for="doctorSelect" class="form-label">Choose Doctor (optional)</label><select class="form-select" id="doctorSelect"><option value="" selected>Any available doctor</option></select></div>
+          <div class="row g-2">
+            <div class="col-7"><label for="appointmentDate" class="form-label">Preferred Date</label><input type="date" class="form-control" id="appointmentDate" required></div>
+            <div class="col-5"><label for="appointmentTime" class="form-label">Preferred Time</label><input type="time" class="form-control" id="appointmentTime" required></div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="submit" form="appointmentForm" class="btn btn-primary">Confirm Booking</button>
+      </div>
+    </div>
+  </div>
+      </div>
+
+      <!-- Doctor List Modal -->
+      <div class="modal fade" id="doctorListModal" tabindex="-1" aria-labelledby="doctorListModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="doctorListModalLabel">Available Doctors</h5>
+              <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <p id="doctorListIntro" class="text-muted">Select a doctor to book an appointment or choose any available doctor.</p>
+              <div id="doctorListContainer" class="row g-3">
+                <!-- Doctor cards inserted here -->
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" id="doctorListAnyBtn" class="btn btn-outline-primary">Any available doctor</button>
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
+</div>
+
+<!-- Payment Modal (Retained) -->
+<div class="modal fade" id="paymentModal" tabindex="-1" aria-labelledby="paymentModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header"><h5 class="modal-title" id="paymentModalLabel">Complete Your Booking</h5><button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button></div>
+            <div class="modal-body">
+                <h6>Booking Summary</h6><p id="bookingSummary"></p><hr>
+                <form id="paymentForm" class="payment-form">
+                    <div class="mb-3"><label for="cardNumber" class="form-label">Card Number</label><input type="text" class="form-control" id="cardNumber" placeholder="0000 0000 0000 0000" required></div>
+                    <div class="row">
+                        <div class="col-md-6 mb-3"><label for="expiryDate" class="form-label">Expiry Date</label><input type="text" class="form-control" id="expiryDate" placeholder="MM/YY" required></div>
+                        <div class="col-md-6 mb-3"><label for="cvv" class="form-label">CVV</label><input type="text" class="form-control" id="cvv" placeholder="123" required></div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer"><button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button><button type="submit" form="paymentForm" class="btn btn-success">Pay Now</button></div>
+        </div>
+    </div>
+</div>
+
+<!-- Message Toast (Used instead of alert/confirm) -->
+<div class="toast-container position-fixed bottom-0 end-0 p-3">
+  <div id="confirmationToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+    <div class="toast-header bg-success text-white"><i class="bi bi-check-circle-fill me-2"></i><strong class="me-auto">Booking Confirmed!</strong><button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast" aria-label="Close"></button></div>
+    <div class="toast-body">Your appointment has been successfully booked. A confirmation email has been sent.</div>
+  </div>
+  <div id="messageToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+    <div class="toast-header"><strong class="me-auto" id="messageToastTitle">Notification</strong><button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button></div>
+    <div class="toast-body" id="messageToastBody"></div>
+  </div>
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    // --- State and Constants ---
+    let currentUser = { role: 'guest', name: 'Guest', userId: null };
+    let mockAppointments = [
+        { bookingType: 'General Appointment', department: 'Cardiology', appointmentDate: '2025-11-15', status: 'Pending' },
+        { bookingType: 'Basic Wellness Checkup', department: 'Orthopaedics', appointmentDate: '2025-12-01', status: 'Confirmed' }
+    ];
+    let patientAppointments = mockAppointments;
+    
+    const departments = [
+        { id: 'cardiology', name: 'Cardiology', icon: 'https://static.vecteezy.com/system/resources/previews/016/223/362/original/human-heart-logo-medical-cardiology-icon-illustration-vector.jpg', keywords: "cardiology heart cardiac vascular chest pain arrhythmia palpitation", image: "https://www.vagahospitals.com/wp-content/uploads/2023/08/cardio1.webp", description: "Our cardiology department offers comprehensive care for all heart-related conditions. We are leaders in pioneering minimally invasive and robotic-assisted heart surgeries, ensuring optimal outcomes with rapid recovery.", features: ["24/7 cardiac emergency and trauma care", "Expertise in heart failure & arrhythmia", "State-of-the-art cardiac imaging"] },
+        { id: 'oncology', name: 'Oncology', icon: 'https://cdn4.iconfinder.com/data/icons/medical-services-specialties-set-4/256/12-01-1024.png', keywords: "oncology cancer tumour tumor chemotherapy radiation lump", image: "https://karger.silverchair-cdn.com/ImageLibrary/selfserve/hero-salp-oncology.jpg?versionId=21567", description: "At Apollo, we meet the challenge of cancer with Precision Oncology, integrating advanced imaging, molecular biology, and compassionate care.", features: ["Comprehensive cancer screening", "Genetic profiling & personalized therapies", "Advanced stem cell procedures"] },
+        { id: 'nephrology', name: 'Nephrology & Urology', icon: 'https://meditrinainstitute.com/wp-content/uploads/2020/01/Nephrology-Urology.png', keywords: "nephrology kidney urology transplant dialysis renal urinary pain", image: "https://eremedium.in/wp-content/uploads/2022/04/9-Neprh.jpg", description: "Our specialists use the latest techniques in micro-invasive and robotic surgeries for urinary tract, reproductive health, and kidney diseases.", features: ["Comprehensive dialysis programs", "Kidney transplant support", "Advanced robotic urological surgeries"] },
+        { id: 'orthopaedics', name: 'Orthopaedics', icon: 'https://static.vecteezy.com/system/resources/previews/034/846/746/original/orthopaedic-clinic-logo-vector.jpg', keywords: "orthopaedics bones joints trauma sports injury fracture back pain", image: "https://udayanandahospitals.com/wp-content/uploads/2020/04/ORTHOPEDICS-img.jpg", description: "We offer world-class orthopaedic services focusing on surgical and non-surgical treatments to enhance mobility, including joint replacement and trauma care.", features: ["Advanced arthroscopic procedures", "Sports injury rehabilitation", "Spine surgeries & deformity corrections"] },
+        { id: 'neurology', name: 'Neurology', icon: 'https://static.vecteezy.com/system/resources/previews/011/718/509/original/brain-logo-template-design-brainstorm-logo-ideas-neurology-logo-think-idea-concept-free-vector.jpg', keywords: "neurology brain nervous stroke epilepsy headache migraine dizziness seizure", image: "https://img.freepik.com/premium-photo/brain-image-neurology-concept-front-view-with-neuron-connections-effect-3d-illustration_717906-1230.jpg?w=2000", description: "Our neurology unit specializes in comprehensive management of neurological disorders, from acute stroke care to chronic conditions like epilepsy and Parkinson’s disease.", features: ["24/7 Stroke and neuro-emergency treatment", "Advanced brain and spine surgeries", "Movement disorder & epilepsy clinics"] },
+        { id: 'gastro', name: 'Gastroenterology', icon: 'https://logodix.com/logo/2143569.png', keywords: "gastroenterology digestive liver pancreas endoscopy stomach pain acid reflux heartburn", image: "https://tse1.mm.bing.net/th/id/OIP.MSg67dJU_91S_EKAilkmgQHaE8?r=0&rs=1&pid=ImgDetMain&o=7&rm=3", description: "We deliver patient-centered care for digestive diseases, liver disorders, and pancreatic illnesses using advanced diagnostic and therapeutic procedures.", features: ["Full-spectrum digestive tract care", "Minimally invasive endoscopic treatments", "Liver disease management"] }
+    ];
+
+    // --- DOM Element References & Modals/Toasts ---
+    const authModal = new bootstrap.Modal(document.getElementById('authModal'));
+    const bookingModal = new bootstrap.Modal(document.getElementById('bookingModal'));
+    const paymentModal = new bootstrap.Modal(document.getElementById('paymentModal'));
+    const confirmationToast = new bootstrap.Toast(document.getElementById('confirmationToast'));
+    const messageToastEl = document.getElementById('messageToast');
+    const messageToast = new bootstrap.Toast(messageToastEl);
+    
+    // ... other DOM elements ...
+    const authForm = document.getElementById('authForm');
+    const authModeInput = document.getElementById('authMode');
+    const authSubmitBtn = document.getElementById('authSubmitBtn');
+    const toggleAuthModeBtn = document.getElementById('toggleAuthModeBtn');
+    const signupConfirmPasswordGroup = document.getElementById('signupConfirmPasswordGroup');
+    const dashboardContent = document.getElementById('dashboardContent');
+    const dashboardTitle = document.getElementById('dashboardTitle');
+    
+    // --- Utility Functions ---
+
+    function showToast(title, body, isError = false) {
+        document.getElementById('messageToastTitle').textContent = title;
+        document.getElementById('messageToastBody').textContent = body;
+        messageToastEl.querySelector('.toast-header').className = `toast-header ${isError ? 'bg-danger' : 'bg-primary'} text-white`;
+        messageToast.show();
+    }
+
+    function scrollToSection(selector) {
+        document.querySelector(selector).scrollIntoView({ behavior: 'smooth' });
+    }
+    window.scrollToSection = scrollToSection;
+
+    // --- Mock Authentication Functions (No Firebase) ---
+    function mockLogin(role, email) {
+        currentUser.role = role;
+        currentUser.name = email ? email.split('@')[0] : role.charAt(0).toUpperCase() + role.slice(1);
+        currentUser.userId = 'MOCK-' + (Math.random() * 1000).toFixed(0); 
+        localStorage.setItem('apollo_user_role', role);
+        localStorage.setItem('apollo_user_name', currentUser.name);
+        localStorage.setItem('apollo_user_id', currentUser.userId);
+        return true;
+    }
+
+    function mockLogout() {
+        currentUser.role = 'guest';
+        currentUser.name = 'Guest';
+        currentUser.userId = null;
+        localStorage.removeItem('apollo_user_role');
+        localStorage.removeItem('apollo_user_name');
+        localStorage.removeItem('apollo_user_id');
+    }
+    
+    window.handleAuthSubmit = function(form) {
+        const email = document.getElementById('authEmail').value;
+        const password = document.getElementById('authPassword').value;
+        const mode = document.getElementById('authMode').value;
+        const targetRole = document.getElementById('authTargetRole').value;
+        const submitBtn = document.getElementById('authSubmitBtn');
+        const originalText = submitBtn.innerHTML;
+      // Basic client-side validation for signup
+      if (mode === 'signup') {
+        const confirmPassword = document.getElementById('authConfirmPassword').value;
+        if (password !== confirmPassword) {
+          showToast("Signup Failed", "Passwords do not match.", true);
+          return;
+        }
+      }
+
+      // Disable button and show loading
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>Processing...';
+
+      // If user is signing up as patient/doctor/admin, collect fields and call backend to store
+      if (mode === 'signup' && (targetRole === 'patient' || targetRole === 'doctor' || targetRole === 'admin')) {
+        let fullName = '';
+        let phone = '';
+        let specialist = '';
+        if (targetRole === 'patient') {
+          fullName = document.getElementById('authFullName').value.trim();
+          phone = document.getElementById('authPhone').value.trim();
+        } else if (targetRole === 'doctor') {
+          fullName = document.getElementById('authFullNameDoctor').value.trim();
+          phone = document.getElementById('authPhoneDoctor').value.trim();
+          specialist = document.getElementById('authSpecialist').value.trim();
+        } else {
+          // admin or other roles: try to reuse common fields if present
+          fullName = document.getElementById('authFullName') ? document.getElementById('authFullName').value.trim() : '';
+          phone = document.getElementById('authPhone') ? document.getElementById('authPhone').value.trim() : '';
+        }
+
+        const payload = { email: email, password: password, role: targetRole };
+        if (fullName) payload.name = fullName;
+        if (phone) payload.phone = phone;
+        if (specialist) payload.specialist = specialist;
+
+        fetch('http://localhost:5000/signup', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        }).then(async res => {
+          const data = await res.json().catch(() => ({}));
+          if (res.ok && data.success) {
+            // If backend returned created user info, use it to set UI state
+            if (data.user && data.user.id) {
+              currentUser.role = data.user.role || targetRole;
+              currentUser.name = data.user.name || (email ? email.split('@')[0] : targetRole);
+              currentUser.userId = data.user.id;
+              localStorage.setItem('apollo_user_role', currentUser.role);
+              localStorage.setItem('apollo_user_name', currentUser.name);
+              localStorage.setItem('apollo_user_id', currentUser.userId);
+            } else {
+              // Fallback to mock login behavior
+              mockLogin(targetRole, email);
+            }
+            authModal.hide();
+            showToast('Signup Successful', `Welcome, ${currentUser.name}! (Role: ${currentUser.role.toUpperCase()})`);
+            renderUI();
+            document.getElementById('loginScreen').classList.add('d-none');
+            document.getElementById('authForm').reset();
+            document.getElementById('dashboard').scrollIntoView({ behavior: 'smooth' });
+          } else {
+            const err = (data && data.error) ? data.error : 'Signup failed';
+            showToast('Signup Failed', err, true);
+          }
+        }).catch(err => {
+          console.error('Signup request error', err);
+          showToast('Signup Failed', 'Unable to reach backend. Make sure the backend is running on http://localhost:5000', true);
+        }).finally(() => {
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = originalText;
+        });
+        return; // handled via backend
+      }
+      // If user is logging in as a patient, verify credentials against backend
+      if (mode === 'login' && (targetRole === 'patient' || targetRole === 'doctor' || targetRole === 'admin')) {
+        fetch('http://localhost:5000/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email: email, password: password, role: targetRole })
+        }).then(async res => {
+          const data = await res.json().catch(() => ({}));
+          if (res.ok && data.success) {
+            // If backend returned user info, use it; otherwise fall back to mockLogin
+            if (data.user && data.user.id) {
+              currentUser.role = data.user.role || targetRole;
+              currentUser.name = data.user.name || (email ? email.split('@')[0] : targetRole);
+              currentUser.userId = data.user.id;
+              localStorage.setItem('apollo_user_role', currentUser.role);
+              localStorage.setItem('apollo_user_name', currentUser.name);
+              localStorage.setItem('apollo_user_id', currentUser.userId);
+            } else {
+              mockLogin(targetRole, email);
+            }
+            authModal.hide();
+            showToast('Login Successful', `Welcome back, ${currentUser.name}! (Role: ${currentUser.role.toUpperCase()})`);
+            renderUI();
+            document.getElementById('loginScreen').classList.add('d-none');
+            document.getElementById('authForm').reset();
+            document.getElementById('dashboard').scrollIntoView({ behavior: 'smooth' });
+          } else {
+            const err = (data && data.error) ? data.error : 'Login failed';
+            showToast('Login Failed', err, true);
+          }
+        }).catch(err => {
+          console.error('Login request error', err);
+          showToast('Login Failed', 'Unable to reach backend. Make sure the backend is running on http://localhost:5000', true);
+        }).finally(() => {
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = originalText;
+        });
+        return;
+      }
+
+      // Fall back: mock login (existing behavior) for other roles and login fallback
+      setTimeout(() => {
+        mockLogin(targetRole, email);
+        authModal.hide();
+        showToast("Login Successful", `Welcome back, ${currentUser.name}! (Role: ${currentUser.role.toUpperCase()})`);
+        renderUI();
+        document.getElementById('loginScreen').classList.add('d-none');
+        document.getElementById('authForm').reset();
+
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = originalText;
+
+        // Immediately scroll to dashboard upon successful login
+        document.getElementById('dashboard').scrollIntoView({ behavior: 'smooth' });
+      }, 300);
+    }
+
+    window.toggleAuthMode = function() {
+        const currentMode = authModeInput.value;
+        if (currentMode === 'login') {
+            authModeInput.value = 'signup';
+            authSubmitBtn.innerHTML = '<i class="bi bi-person-plus-fill me-2"></i>Sign up';
+            toggleAuthModeBtn.textContent = 'Already have an account? Log in';
+            signupConfirmPasswordGroup.classList.remove('d-none');
+        // Show role-specific extra fields when toggling to signup
+        const targetRole = document.getElementById('authTargetRole').value;
+        if (targetRole === 'patient') {
+          document.getElementById('patientExtraGroup').classList.remove('d-none');
+          document.getElementById('doctorExtraGroup').classList.add('d-none');
+        } else if (targetRole === 'doctor') {
+          document.getElementById('doctorExtraGroup').classList.remove('d-none');
+          document.getElementById('patientExtraGroup').classList.add('d-none');
+        } else {
+          document.getElementById('patientExtraGroup').classList.add('d-none');
+          document.getElementById('doctorExtraGroup').classList.add('d-none');
+        }
+        } else {
+            authModeInput.value = 'login';
+            authSubmitBtn.innerHTML = '<i class="bi bi-box-arrow-in-right me-2"></i>Login';
+            toggleAuthModeBtn.textContent = 'Need an account? Sign up';
+            signupConfirmPasswordGroup.classList.add('d-none');
+        document.getElementById('patientExtraGroup').classList.add('d-none');
+        document.getElementById('doctorExtraGroup').classList.add('d-none');
+        }
+    }
+
+    window.showAuthModal = function(role) {
+        const roleName = role.charAt(0).toUpperCase() + role.slice(1);
+        document.getElementById('authTargetRole').value = role;
+        document.getElementById('authRoleText').textContent = `Please Login/Signup as a ${roleName}`;
+        
+        // Reset form to login mode by default
+        authModeInput.value = 'login';
+        authForm.reset();
+        toggleAuthModeBtn.textContent = 'Need an account? Sign up';
+        authSubmitBtn.innerHTML = '<i class="bi bi-box-arrow-in-right me-2"></i>Login';
+        signupConfirmPasswordGroup.classList.add('d-none');
+        // hide patient and doctor extra fields by default; will show when user toggles to signup
+        document.getElementById('patientExtraGroup').classList.add('d-none');
+        document.getElementById('doctorExtraGroup').classList.add('d-none');
+
+        // Show the modal
+        authModal.show();
+        document.getElementById('loginScreen').classList.add('d-none'); // Hide the role selection screen
+    }
+
+    window.handleAuthClick = function() {
+        if (currentUser.role === 'guest') {
+            document.getElementById('loginScreen').classList.remove('d-none');
+        } else {
+            mockLogout();
+            showToast("Logged Out", "You have been logged out.");
+            renderUI();
+        }
+    }
+
+    window.checkLoginAndRedirect = function(targetSection, event) {
+        if (event) event.preventDefault();
+        if (currentUser.role === 'guest') {
+            document.getElementById('loginScreen').classList.remove('d-none');
+            showToast("Login Required", "Please select a role and log in to access the dashboard.", true);
+        } else {
+            scrollToSection(`#${targetSection}`);
+        }
+    }
+    
+    window.checkLoginAndBook = function(button) {
+        if (currentUser.role === 'patient') {
+            const bookingType = button.getAttribute('data-booking-type');
+            document.getElementById('bookingModalLabel').textContent = `Book: ${bookingType}`;
+            document.getElementById('bookingType').value = bookingType;
+        const deptMatch = departments.find(d => bookingType.includes(d.name.split(' ')[0]));
+        // departmentSelect uses the department name as the option value
+        const deptValue = deptMatch ? deptMatch.name : "";
+      document.getElementById('departmentSelect').value = deptValue;
+      // populate doctors for the selected department (if available)
+      populateDoctorSelect(deptValue);
+      // show doctor list modal first so patient can pick a doctor
+      populateDoctorListModal(deptValue);
+      const doctorListModalEl = document.getElementById('doctorListModal');
+      const doctorListModal = new bootstrap.Modal(doctorListModalEl);
+      doctorListModal.show();
+        } else if (currentUser.role === 'guest') {
+            document.getElementById('loginScreen').classList.remove('d-none');
+            showToast("Login Required", "Please log in as a **Patient** to book appointments.", true);
+        } else {
+            showToast("Access Denied", `${currentUser.name} (${currentUser.role.toUpperCase()}) cannot book appointments. Only **Patients** can use this feature.`, true);
+        }
+    }
+
+    // --- Dynamic UI Rendering ---
+    
+    function renderDoctorDashboard() {
+        dashboardTitle.textContent = "Doctor's Schedule & Patient List";
+        dashboardContent.innerHTML = `<div class="dashboard-content-pane"><h4 class="mb-4">Welcome, Dr. ${currentUser.name}</h4><p class="text-muted">User ID: <span class="fw-bold text-success">${currentUser.userId}</span></p><div id="doctorBookingsArea"><p class="text-muted">Loading appointments...</p></div></div>`;
+
+        // Fetch bookings assigned to this doctor (if userId looks like an integer)
+        const area = document.getElementById('doctorBookingsArea');
+        const doctorId = currentUser.userId;
+        if (!doctorId) {
+            area.innerHTML = '<p class="text-muted">No doctor id available for this session. Please login via backend to see real bookings.</p>';
+            return;
+        }
+
+        // Try to call backend
+        fetch(`http://localhost:5000/bookings?doctor_id=${encodeURIComponent(doctorId)}`)
+          .then(res => res.json())
+          .then(data => {
+            if (resIsOk(data) && Array.isArray(data.bookings) && data.bookings.length) {
+              const rows = data.bookings.map(b => {
+                const dateStr = b.appointment_datetime ? new Date(b.appointment_datetime).toLocaleString() : (b.appointment_date ? new Date(b.appointment_date).toDateString() : b.appointment_date);
+                const statusBadge = `<span class="badge bg-${b.status === 'Pending' ? 'warning' : 'success'} rounded-pill">${b.status}</span>`;
+                return `<li class="list-group-item d-flex justify-content-between align-items-start flex-column flex-md-row">
+                          <div>
+                            <div class="fw-bold">${b.patient_name}</div>
+                            <div class="small text-muted">${b.booking_type} · ${b.department} · ${dateStr}</div>
+                          </div>
+                          <div class="mt-2 mt-md-0 text-md-end">
+                            ${statusBadge}
+                            <div class="mt-2">
+                              ${b.status === 'Pending' ? `<button class="btn btn-sm btn-success me-2" onclick="updateBookingStatus(${b.id}, 'Confirmed')">Confirm</button>` : ''}
+                              ${b.status !== 'Cancelled' ? `<button class="btn btn-sm btn-danger" onclick="updateBookingStatus(${b.id}, 'Cancelled')">Cancel</button>` : ''}
+                            </div>
+                          </div>
+                        </li>`;
+              }).join('');
+              area.innerHTML = `<h5 class="mt-3">Upcoming Appointments</h5><ul class="list-group">${rows}</ul>`;
+            } else {
+              area.innerHTML = '<p class="text-muted">No appointments assigned to you yet.</p>';
+            }
+          }).catch(err => {
+            console.error('Failed to load bookings for doctor:', err);
+            area.innerHTML = '<p class="text-muted">Unable to fetch appointments. Check backend.</p>';
+          });
+        animateCounters();
+    }
+
+    // Helper used in renderDoctorDashboard to check backend response quick
+    function resIsOk(data) {
+      return data && data.success === true;
+    }
+
+    // Allow doctor to update booking status (Confirm/Cancel)
+    window.updateBookingStatus = async function(bookingId, status) {
+      try {
+        const res = await fetch(`http://localhost:5000/bookings/${bookingId}`, {
+          method: 'PATCH',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ status })
+        });
+        const data = await res.json().catch(() => ({}));
+        if (res.ok && data.success) {
+          showToast('Booking Updated', `Booking ${bookingId} set to ${status}.`);
+          renderUI();
+        } else {
+          const err = (data && data.error) ? data.error : 'Failed to update booking.';
+          showToast('Update Failed', err, true);
+        }
+      } catch (err) {
+        console.error('Error updating booking status:', err);
+        showToast('Update Failed', 'Unable to reach backend.', true);
+      }
+    }
+
+    function renderAdminDashboard() {
+        dashboardTitle.textContent = "Admin Control Panel";
+        dashboardContent.innerHTML = `
+            <div class="dashboard-content-pane">
+                <h4 class="mb-4">System Overview</h4>
+                <p class="text-muted">User ID: <span class="fw-bold text-danger">${currentUser.userId}</span></p>
+                <div class="row g-4">
+                    <div class="col-md-4"><div class="dashboard-card text-center"><i class="bi bi-gear-fill stat-icon"></i><h3 class="stat-number" data-target="250">0</h3><p class="text-muted mb-0">Staff Accounts</p></div></div>
+                    <div class="col-md-4"><div class="dashboard-card text-center"><i class="bi bi-hospital stat-icon"></i><h3 class="stat-number" data-target="65" data-decimal="true">0</h3><p class="text-muted mb-0">Beds Occupied (%)</p></div></div>
+                    <div class="col-md-4"><div class="dashboard-card text-center"><i class="bi bi-exclamation-triangle-fill stat-icon"></i><h3 class="stat-number" data-target="3">0</h3><p class="text-muted mb-0">Critical Alerts</p></div></div>
+                </div>
+                <h5 class="mt-4">Administrative Tools (Mock Data)</h5>
+                <div class="list-group">
+                    <button type="button" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">Manage User Access <i class="bi bi-arrow-right"></i></button>
+                    <button type="button" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">Generate Financial Reports <i class="bi bi-arrow-right"></i></button>
+                    <button type="button" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">View System Logs <i class="bi bi-arrow-right"></i></button>
+                </div>
+            </div>
+        `;
+        animateCounters();
+    }
+
+    function renderPatientDashboard() {
+      dashboardTitle.textContent = "My Patient Portal";
+      const appointmentList = patientAppointments.length > 0
+        ? patientAppointments.map(app => 
+        `<li class="list-group-item d-flex justify-content-between align-items-center">
+          ${app.bookingType} with ${app.doctorName ? `${app.doctorName} (${app.department || 'Unknown Dept'})` : (app.department || 'Unknown Dept')} on ${new Date(app.appointmentDate).toDateString()} 
+          <span class="badge bg-${app.status === 'Pending' ? 'warning' : 'success'} rounded-pill">${app.status}</span>
+        </li>`
+        ).join('')
+        : '<li class="list-group-item text-center text-muted">No upcoming appointments.</li>';
+
+      // Build doctors list HTML from availableDoctors
+      const docs = window.availableDoctors || [];
+      let doctorsHtml = '';
+      if (!docs.length) {
+        doctorsHtml = '<p class="text-muted">No doctors are registered yet.</p>';
+      } else {
+        doctorsHtml = '<div class="row g-3">';
+        docs.forEach(d => {
+          const name = d.name || d.email || 'Doctor';
+          const spec = d.specialist || 'General';
+          const contact = (d.phone ? d.phone : '') + (d.phone && d.email ? ' · ' : '') + (d.email ? d.email : '');
+          doctorsHtml += `<div class="col-md-6 col-lg-4"><div class="card h-100">
+            <div class="card-body">
+              <h5 class="card-title mb-1">${name}</h5>
+              <p class="card-text small text-muted mb-2">${spec}</p>
+              <p class="mb-2"><small class="text-muted">${contact}</small></p>
+              <div class="d-flex justify-content-end">
+                <button class="btn btn-sm btn-outline-primary me-2" onclick="scrollToSection('#departmentSections')">View Dept</button>
+                <button class="btn btn-sm btn-primary" onclick="bookWithDoctor(${d.id})">Book</button>
+              </div>
+            </div>
+          </div></div>`;
+        });
+        doctorsHtml += '</div>';
+      }
+
+      dashboardContent.innerHTML = `
+        <div class="dashboard-content-pane">
+          <h4 class="text-center mb-4">Welcome back, ${currentUser.name}!</h4>
+          <p class="text-muted">User ID: <span class="fw-bold text-success">${currentUser.userId}</span></p>
+          <div class="row g-4 mb-4">
+            <div class="col-md-6">
+              <div class="dashboard-card text-center">
+                <i class="bi bi-calendar2-event stat-icon"></i>
+                <h3 class="stat-number" data-target="${patientAppointments.length}">0</h3>
+                <p class="text-muted mb-0">Upcoming Appointment(s)</p>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="dashboard-card text-center">
+                <i class="bi bi-journal-medical stat-icon"></i>
+                <h3 class="stat-number" data-target="8">0</h3>
+                <p class="text-muted mb-0">Records & Reports</p>
+              </div>
+            </div>
+          </div>
+                
+          <h5>My Appointments (Mock Data)</h5>
+          <ul class="list-group mb-4">
+            ${appointmentList}
+          </ul>
+
+          <h5 class="mt-4">Available Doctors</h5>
+          <div id="patientDoctorsList" class="mb-4">
+            ${doctorsHtml}
+          </div>
+
+          <h5>Upload Medical Documents</h5>
+          <p class="text-muted small">Securely upload your reports for your doctor to review.</p>
+          <form id="uploadForm">
+            <div class="mb-3"><label for="documentFile" class="form-label">Select PDF, JPG, or PNG file</label><input class="form-control" type="file" id="documentFile" accept=".pdf,.jpg,.jpeg,.png" required></div>
+            <button type="submit" class="btn btn-success"><i class="bi bi-upload me-2"></i>Upload Document</button>
+            <small id="uploadStatus" class="ms-3"></small>
+          </form>
+                
+          <h5 class="mt-4">Quick Actions</h5>
+          <button class="btn btn-outline-primary me-2" onclick="scrollToSection('#health-checkup')"><i class="bi bi-bandaid me-2"></i>Book Checkup</button>
+          <button class="btn btn-outline-info" onclick="checkLoginAndBook(this)" data-booking-type="General Appointment"><i class="bi bi-chat-dots me-2"></i>Chat with Specialist</button>
+        </div>
+      `;
+      document.getElementById('uploadForm').addEventListener('submit', handleUploadSubmit);
+      animateCounters(); 
+    }
+
+    // Book using a specific doctor: preselect department and doctor, then open booking modal
+    window.bookWithDoctor = function(doctorId) {
+      const doc = (window.availableDoctors || []).find(d => String(d.id) === String(doctorId));
+      if (!doc) {
+        showToast('Doctor not found', 'Selected doctor is not available.', true);
+        return;
+      }
+      const deptName = doc.specialist || '';
+      // set booking type and department
+      document.getElementById('bookingType').value = `${deptName} Consultation`;
+      // departmentSelect uses the department name as value
+      const deptSelect = document.getElementById('departmentSelect');
+      if (deptSelect) deptSelect.value = deptName || '';
+      // ensure doctors are populated for this department, then select the doctor
+      populateDoctorSelect(deptName);
+      const doctorSelect = document.getElementById('doctorSelect');
+      if (doctorSelect) {
+        // find option with value == doctorId
+        const opt = Array.from(doctorSelect.options).find(o => String(o.value) === String(doctorId));
+        if (opt) doctorSelect.value = opt.value;
+      }
+      document.getElementById('bookingModalLabel').textContent = `Book: ${deptName} Consultation`;
+      bookingModal.show();
+    }
+
+    // Populate and show the doctor list for a given department (used by checkLoginAndBook)
+    function populateDoctorListModal(departmentName) {
+      const container = document.getElementById('doctorListContainer');
+      const intro = document.getElementById('doctorListIntro');
+      const anyBtn = document.getElementById('doctorListAnyBtn');
+      container.innerHTML = '';
+      const list = (window.availableDoctors || []).filter(d => {
+        if (!departmentName) return true;
+        const spec = (d.specialist || '').toLowerCase();
+        return spec === departmentName.toLowerCase() || spec.includes(departmentName.toLowerCase());
+      });
+      intro.textContent = list.length ? `Found ${list.length} doctor(s) for ${departmentName || 'this department'}.` : `No doctors found for ${departmentName || 'this department'}.`;
+
+      if (!list.length) {
+        container.innerHTML = `<div class="col-12"><p class="text-muted">No available doctors for this specialist right now. You can still proceed to book any available doctor.</p></div>`;
+      } else {
+        list.forEach(d => {
+          const name = d.name || d.email || 'Doctor';
+          const spec = d.specialist || 'General';
+          const contact = (d.phone ? d.phone : '') + (d.phone && d.email ? ' · ' : '') + (d.email ? d.email : '');
+          const card = document.createElement('div');
+          card.className = 'col-md-6';
+          card.innerHTML = `
+            <div class="card h-100">
+              <div class="card-body">
+                <h5 class="card-title mb-1">${name}</h5>
+                <p class="card-text small text-muted mb-2">${spec}</p>
+                <p class="mb-2"><small class="text-muted">${contact}</small></p>
+                <div class="d-flex justify-content-end">
+                  <button class="btn btn-sm btn-outline-primary me-2" onclick="scrollToSection('#departmentSections')">View Dept</button>
+                  <button class="btn btn-sm btn-primary" onclick="(function(){ bookWithDoctor(${d.id}); var m = bootstrap.Modal.getInstance(document.getElementById('doctorListModal')); if (m) m.hide(); })()">Book</button>
+                </div>
+              </div>
+            </div>
+          `;
+          container.appendChild(card);
+        });
+      }
+
+      // Any available doctor opens booking modal without preselected doctor
+      anyBtn.onclick = function() {
+        // close doctor list modal
+        const m = bootstrap.Modal.getInstance(document.getElementById('doctorListModal'));
+        if (m) m.hide();
+        // ensure department is set on booking modal and show booking modal
+        document.getElementById('departmentSelect').value = departmentName || '';
+        populateDoctorSelect(departmentName);
+        document.getElementById('doctorSelect').value = '';
+        document.getElementById('bookingModalLabel').textContent = `Book: ${departmentName ? departmentName + ' Consultation' : 'Appointment'}`;
+        bookingModal.show();
+      };
+    }
+
+    function renderGuestDashboard() {
+        dashboardTitle.textContent = "Hospital Analytics";
+        dashboardContent.innerHTML = `
+            <div id="guestDashboard" class="row g-4">
+                <div class="col-md-6 col-lg-3"><div class="dashboard-card text-center"><i class="bi bi-people-fill stat-icon"></i><h3 class="stat-number" data-target="85000">0</h3><p class="text-muted mb-0">Patients Annually</p></div></div>
+                <div class="col-md-6 col-lg-3"><div class="dashboard-card text-center"><i class="bi bi-heart-pulse-fill stat-icon"></i><h3 class="stat-number" data-target="12000">0</h3><p class="text-muted mb-0">Successful Surgeries</p></div></div>
+                <div class="col-md-6 col-lg-3"><div class="dashboard-card text-center"><i class="bi bi-star-fill stat-icon"></i><h3 class="stat-number" data-target="98.7" data-decimal="true">0</h3><p class="text-muted mb-0">Satisfaction (%)</p></div></div>
+                <div class="col-md-6 col-lg-3"><div class="dashboard-card text-center"><i class="bi bi-person-check-fill stat-icon"></i><h3 class="stat-number" data-target="250">0</h3><p class="text-muted mb-0">Specialists</p></div></div>
+            </div>
+        `;
+        animateCounters();
+    }
+
+    function renderUI() {
+        const role = currentUser.role;
+
+        // 1. Update Navbar Auth Button and Badge
+        if (role === 'guest') {
+            document.getElementById('authBtn').textContent = 'Login';
+            document.getElementById('authBtn').className = 'btn btn-warning fw-bold rounded-pill';
+            document.getElementById('roleBadge').classList.add('d-none');
+        } else {
+            document.getElementById('authBtn').textContent = 'Logout';
+            document.getElementById('authBtn').className = 'btn btn-outline-light fw-bold rounded-pill';
+            document.getElementById('roleBadge').textContent = role.toUpperCase();
+            document.getElementById('roleBadge').classList.remove('d-none');
+            document.getElementById('loginScreen').classList.add('d-none');
+        }
+        
+        // 2. Render dashboard based on role
+        if (role === 'patient') {
+            renderPatientDashboard();
+        } else if (role === 'doctor') {
+            renderDoctorDashboard();
+        } else if (role === 'admin') {
+            renderAdminDashboard();
+        } else {
+            renderGuestDashboard();
+        }
+
+        // 3. Hide all non-dashboard sections for Doctor and Admin
+        const publicElements = document.querySelectorAll('#hero, .public-only, #departmentSections');
+        const displayStyle = (role === 'doctor' || role === 'admin') ? 'none' : 'block';
+        publicElements.forEach(el => {
+             // For the hero section which is <header>
+            if (el.id === 'hero') { 
+                el.style.display = (role === 'doctor' || role === 'admin') ? 'none' : 'block';
+            }
+            // For general sections and list items
+            else if (el.tagName === 'SECTION' || el.tagName === 'DIV' || el.tagName === 'LI' || el.classList.contains('nav-item')) {
+                el.style.display = displayStyle;
+            } else {
+                el.style.display = displayStyle; // General fallback
+            }
+        });
+
+        // Ensure main is visible
+        document.querySelector('main.container').style.display = 'block'; 
+        // Ensure the dashboard itself is visible
+        document.getElementById('dashboard').style.display = 'block';
+
+        // Re-enable dashboard for all logged-in roles
+        if (role !== 'guest') {
+             document.getElementById('dashboard').style.display = 'block';
+        }
+    }
+
+
+    // --- Helper Content/UI functions ---
+
+    function populateContent() {
+        const excellenceCardsContainer = document.getElementById('excellenceCards');
+        const departmentSectionsContainer = document.getElementById('departmentSections');
+        const navDepartmentLinks = document.getElementById('nav-department-links');
+        const footerDeptLinks = document.getElementById('footer-dept-links');
+        const departmentSelect = document.getElementById('departmentSelect');
+        
+        departments.forEach((dept, index) => {
+            excellenceCardsContainer.innerHTML += `<div class="col-6 col-md-4 col-lg-2"><a href="#${dept.id}" class="text-decoration-none text-dark d-block h-100"><div class="excellence-card text-center"><img src="https://placehold.co/90x90/53cea7/ffffff?text=${dept.name[0]}" alt="${dept.name}" class="excellence-icon mx-auto"/><p class="fw-bold mt-2 mb-0">${dept.name}</p></div></a></div>`;
+            departmentSectionsContainer.innerHTML += `<section id="${dept.id}"><div class="row align-items-center g-4"><div class="col-lg-6 ${index % 2 === 0 ? 'order-lg-1' : 'order-lg-2'}"><img src="${dept.image}" alt="${dept.name}" class="img-large rounded-4 w-100" /></div><div class="col-lg-6 ${index % 2 === 0 ? 'order-lg-2' : 'order-lg-1'}"><div class="section-content"><h3 class="mb-3 fw-strong">${dept.name}</h3><p>${dept.description}</p><ul class="mb-3">${dept.features.map(f => `<li>${f}</li>`).join('')}</ul><button class="btn btn-primary" onclick="checkLoginAndBook(this)" data-booking-type="${dept.name} Consultation">Book Consultation</button></div></div></div></section>`;
+            navDepartmentLinks.innerHTML += `<li><a class="dropdown-item" href="#${dept.id}" onclick="scrollToSection('#${dept.id}')">${dept.name}</a></li>`;
+            footerDeptLinks.innerHTML += `<p><a href="#${dept.id}" class="text-reset" onclick="scrollToSection('#${dept.id}')">${dept.name}</a></p>`;
+        });
+        departmentSelect.innerHTML = `<option value="" selected disabled>Select a Department</option>` + departments.map(d => `<option value="${d.name}">${d.name}</option>`).join('');
+
+        // Populate doctor specialist select in the auth modal with the same department list
+        const authSpecialistSelect = document.getElementById('authSpecialist');
+        if (authSpecialistSelect) {
+          authSpecialistSelect.innerHTML = `<option value="" selected disabled>Select a specialist</option>` + departments.map(d => `<option value="${d.name}">${d.name}</option>`).join('');
+        }
+    }
+
+    function handleSearch() {
+        const query = document.getElementById('searchInput').value.toLowerCase().trim();
+        document.getElementById('clearBtn').classList.toggle('visible', query.length > 0);
+        let firstVisibleSection = null;
+        document.querySelectorAll('#excellenceCards > div').forEach(card => {
+            const cardLink = card.querySelector('a').getAttribute('href').substring(1);
+            const dept = departments.find(d => d.id === cardLink);
+            const isVisible = !query || dept.keywords.toLowerCase().includes(query);
+            card.style.display = isVisible ? '' : 'none';
+        });
+        departments.forEach(dept => {
+            const section = document.getElementById(dept.id);
+            const isVisible = !query || dept.keywords.toLowerCase().includes(query);
+            if (section) section.style.display = isVisible ? '' : 'none';
+            if (isVisible && query && !firstVisibleSection) firstVisibleSection = section;
+        });
+        document.getElementById('noResults').classList.toggle('d-none', departments.some(dept => document.getElementById(dept.id)?.style.display !== 'none'));
+        if (firstVisibleSection) firstVisibleSection.scrollIntoView({ behavior: 'smooth' });
+    }
+    
+    function animateCounters() {
+        const currentCounters = document.querySelectorAll('#dashboardContent .stat-number, #guestDashboard .stat-number');
+        const observer = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const counter = entry.target;
+                    const target = +counter.getAttribute('data-target');
+                    const isDecimal = counter.getAttribute('data-decimal') === 'true';
+                    let current = 0;
+                    const timer = setInterval(() => {
+                        const increment = target / 100;
+                        current += increment;
+                        if (current >= target) {
+                            clearInterval(timer);
+                            counter.innerText = isDecimal ? target.toFixed(1) : target.toLocaleString();
+                        } else {
+                             counter.innerText = isDecimal ? current.toFixed(1) : Math.floor(current).toLocaleString();
+                        }
+                    }, 15);
+                    observer.unobserve(counter);
+                }
+            });
+        }, { threshold: 0.7 });
+        currentCounters.forEach(counter => observer.observe(counter));
+    }
+    
+    document.getElementById('appointmentForm').addEventListener('submit', async event => {
+        event.preventDefault();
+        const bookingType = document.getElementById('bookingType').value;
+        const department = document.getElementById('departmentSelect').value;
+        const patientName = document.getElementById('patientName').value;
+        const appointmentDate = document.getElementById('appointmentDate').value;
+        const appointmentTime = document.getElementById('appointmentTime') ? document.getElementById('appointmentTime').value : '';
+        // Build server-friendly datetime (YYYY-MM-DD HH:MM:SS) and client ISO datetime
+        const appointmentDatetimeServer = appointmentDate && appointmentTime ? `${appointmentDate} ${appointmentTime}:00` : (appointmentDate ? `${appointmentDate} 09:00:00` : '');
+        const appointmentDatetimeClient = appointmentDate && appointmentTime ? `${appointmentDate}T${appointmentTime}:00` : (appointmentDate ? `${appointmentDate}T09:00:00` : '');
+      const doctorSelect = document.getElementById('doctorSelect');
+      const doctorId = doctorSelect ? doctorSelect.value : '';
+      const doctorName = (doctorSelect && doctorSelect.selectedOptions && doctorSelect.selectedOptions[0]) ? doctorSelect.selectedOptions[0].textContent : '';
+
+        // Prepare payload for backend booking
+        const payload = {
+          patient_name: patientName || (currentUser.name || 'Patient'),
+          patient_id: currentUser.userId || '',
+          doctor_id: doctorId || null,
+          doctor_name: doctorName || '',
+          department: department || '',
+          booking_type: bookingType || '',
+          appointment_datetime: appointmentDatetimeServer
+        };
+
+        bookingModal.hide();
+
+        // Try to persist booking to backend; fallback to mock local storage if backend unavailable
+        try {
+          const res = await fetch('http://localhost:5000/bookings', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+          });
+          const data = await res.json().catch(() => ({}));
+          if (res.ok && data.success && data.booking) {
+            // Use the saved booking from backend
+            const bk = data.booking;
+            // Normalize to patientAppointments shape. Use client ISO datetime for display.
+            patientAppointments.push({
+              bookingType: bk.booking_type || bookingType,
+              department: bk.department || department,
+              appointmentDate: appointmentDatetimeClient || (bk.appointment_datetime || appointmentDate),
+              doctorId: bk.doctor_id || doctorId,
+              doctorName: bk.doctor_name || doctorName,
+              status: bk.status || 'Pending',
+              id: bk.id
+            });
+            const displayDate = appointmentDatetimeClient ? new Date(appointmentDatetimeClient).toLocaleString() : appointmentDate;
+            document.getElementById('bookingSummary').innerHTML = `<strong>Patient:</strong> ${payload.patient_name}<br><strong>Type:</strong> ${payload.booking_type}<br><strong>Department:</strong> ${payload.department}${payload.doctor_name ? `<br><strong>Doctor:</strong> ${payload.doctor_name}` : ''}<br><strong>Date & Time:</strong> ${displayDate}`;
+          } else {
+            // Fallback: keep previous mock behavior
+            patientAppointments.push({
+              bookingType: bookingType,
+              department: department,
+              appointmentDate: appointmentDate,
+              doctorId: doctorId,
+              doctorName: doctorName,
+              status: 'Pending'
+            });
+            const displayDateFallback = appointmentDatetimeClient ? new Date(appointmentDatetimeClient).toLocaleString() : appointmentDate;
+            document.getElementById('bookingSummary').innerHTML = `<strong>Patient:</strong> ${patientName}<br><strong>Type:</strong> ${bookingType}<br><strong>Department:</strong> ${department}${doctorName ? `<br><strong>Doctor:</strong> ${doctorName}` : ''}<br><strong>Date & Time:</strong> ${displayDateFallback}`;
+          }
+        } catch (err) {
+          console.error('Booking POST failed, using local mock:', err);
+          patientAppointments.push({
+            bookingType: bookingType,
+            department: department,
+            appointmentDate: appointmentDate,
+            doctorId: doctorId,
+            doctorName: doctorName,
+            status: 'Pending'
+          });
+          document.getElementById('bookingSummary').innerHTML = `<strong>Patient:</strong> ${patientName}<br><strong>Type:</strong> ${bookingType}<br><strong>Department:</strong> ${department}${doctorName ? `<br><strong>Doctor:</strong> ${doctorName}` : ''}<br><strong>Date:</strong> ${appointmentDate}`;
+        }
+
+        // If a patient is booking, skip the payment gateway and confirm immediately
+        if (currentUser.role === 'patient') {
+          // Mock success: show confirmation, reset forms and update dashboard
+          confirmationToast.show();
+          document.getElementById('appointmentForm').reset();
+          document.getElementById('paymentForm').reset();
+          if (typeof renderPatientDashboard === 'function') renderPatientDashboard();
+        } else {
+          // For other roles or paid bookings, show payment modal
+          paymentModal.show();
+        }
+    });
+
+    document.getElementById('paymentForm').addEventListener('submit', async event => {
+        event.preventDefault();
+        
+        // Mock success
+        paymentModal.hide();
+        confirmationToast.show();
+        document.getElementById('appointmentForm').reset();
+        document.getElementById('paymentForm').reset();
+        
+        // Update the patient dashboard with new appointments immediately
+        if(currentUser.role === 'patient') {
+            renderPatientDashboard();
+        }
+    });
+
+    function handleUploadSubmit(event) {
+        event.preventDefault();
+        const statusEl = document.getElementById('uploadStatus');
+        const fileInput = document.getElementById('documentFile');
+        if (fileInput.files.length > 0) {
+            statusEl.textContent = 'Uploading...';
+            statusEl.className = 'ms-3 text-primary';
+            setTimeout(() => {
+                statusEl.textContent = `Successfully uploaded ${fileInput.files[0].name}!`;
+                statusEl.className = 'ms-3 text-success';
+                document.getElementById('uploadForm').reset();
+            }, 1500);
+        } else {
+            statusEl.textContent = 'Please select a file to upload.';
+            statusEl.className = 'ms-3 text-danger';
+        }
+    }
+    
+    function loadUserFromStorage() {
+        const storedRole = localStorage.getItem('apollo_user_role');
+        const storedName = localStorage.getItem('apollo_user_name');
+        const storedId = localStorage.getItem('apollo_user_id');
+        if (storedRole && storedId) {
+            currentUser.role = storedRole;
+            currentUser.name = storedName;
+            currentUser.userId = storedId;
+        }
+    }
+
+    // --- Doctors API integration for booking ---
+    window.availableDoctors = [];
+
+    async function fetchDoctors() {
+      try {
+        const res = await fetch('http://localhost:5000/doctors');
+        const data = await res.json().catch(() => ({}));
+        if (res.ok && data.success && Array.isArray(data.doctors)) {
+          window.availableDoctors = data.doctors;
+        } else {
+          window.availableDoctors = [];
+        }
+      } catch (err) {
+        console.error('Failed to fetch doctors:', err);
+        window.availableDoctors = [];
+      }
+    }
+
+    function populateDoctorSelect(departmentName) {
+      const group = document.getElementById('doctorSelectGroup');
+      const select = document.getElementById('doctorSelect');
+      if (!select || !group) return;
+      select.innerHTML = '<option value="">Any available doctor</option>';
+      let list = (window.availableDoctors || []);
+      if (departmentName) {
+        const filterName = (departmentName || '').toLowerCase();
+        list = list.filter(d => (d.specialist || '').toLowerCase() === filterName || (d.specialist || '').toLowerCase().includes(filterName));
+      }
+      if (!list.length) {
+        // show a single disabled option when none available
+        select.innerHTML = '<option value="" disabled>No doctors available</option>';
+        group.style.display = 'none';
+        return;
+      }
+      list.forEach(doc => {
+        const opt = document.createElement('option');
+        opt.value = doc.id;
+        opt.textContent = `${doc.name} — ${doc.specialist || 'General'}`;
+        select.appendChild(opt);
+      });
+      group.style.display = '';
+    }
+
+    // --- Final Initialization ---
+    document.addEventListener('DOMContentLoaded', function () {
+      loadUserFromStorage();
+      populateContent();
+      // Fetch doctors from backend for booking
+      fetchDoctors();
+      document.getElementById('searchInput').addEventListener('input', handleSearch);
+      document.getElementById('clearBtn').addEventListener('click', () => { document.getElementById('searchInput').value = ''; handleSearch(); });
+      const marquee = document.querySelector('.patients-marquee');
+      Array.from(marquee.children).forEach(item => marquee.appendChild(item.cloneNode(true)));
+
+      // Wire department select change to update doctors list
+      const deptSel = document.getElementById('departmentSelect');
+      if (deptSel) deptSel.addEventListener('change', (e) => populateDoctorSelect(e.target.value));
+
+      renderUI();
+    });
+</script>
+</body>
+</html>
